@@ -20,8 +20,6 @@ namespace PokemonMVVM.Droid
         protected override void OnCreate(Bundle bundle)
         {
 
-            TabLayoutResource = Droid.Resource.Layout.Tabbar;
-            ToolbarResource = Droid.Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
 
