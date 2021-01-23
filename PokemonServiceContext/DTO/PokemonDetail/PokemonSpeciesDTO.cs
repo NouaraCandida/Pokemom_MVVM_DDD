@@ -4,7 +4,8 @@ using System.Text;
 
 namespace PokemonDomain.Model.PokemonDetail
 {
-    public class PokemonAbilities
+    public class PokemonSpeciesDTO
     {
+
     }
 }
