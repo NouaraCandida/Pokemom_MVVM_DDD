@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PokemonServiceContext
+namespace PokemonDomain
 {
     public static class Constants
     {

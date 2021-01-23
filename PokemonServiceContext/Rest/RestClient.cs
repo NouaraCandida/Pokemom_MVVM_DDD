@@ -38,7 +38,7 @@ namespace PokemonServiceContext.Rest
                     }
 
                     var stringSerialized = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
+                   var a  = JsonConvert.DeserializeObject<TResult>(stringSerialized);
                     return JsonConvert.DeserializeObject<TResult>(stringSerialized);
                 }
             }
