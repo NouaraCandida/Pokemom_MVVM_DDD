@@ -8,12 +8,12 @@ using MvvmCross.Forms.Platforms.Android.Views;
 namespace PokemonMVVM.Droid
 {
     [Activity(
-    Label = "Pokédex",
+   
     MainLauncher = true,
     Icon = "@mipmap/icon",
     Theme = "@style/MainTheme.Splash",
-    NoHistory = true)
-   ]
+    NoHistory = true,
+    ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreen : MvxFormsSplashScreenActivity<Setup, PokemonMVVM.Core.App, PokemonMVVM.App>
     {
 
