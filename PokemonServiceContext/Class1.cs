@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PokemonDomain
+namespace PokemonServiceContext
 {
     public class Class1
     {
