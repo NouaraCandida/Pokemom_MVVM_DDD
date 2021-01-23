@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonInjection", "Pokemon
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aplicativo", "Aplicativo", "{510985E1-4968-425A-B852-C72C051CCBDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonServiceContext", "PokemonServiceContext\PokemonServiceContext.csproj", "{ABC491E0-EDE5-432A-8A58-8033B2D22844}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonServiceContext", "PokemonServiceContext\PokemonServiceContext.csproj", "{ABC491E0-EDE5-432A-8A58-8033B2D22844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
