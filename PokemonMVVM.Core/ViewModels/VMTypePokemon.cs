@@ -83,9 +83,7 @@ namespace PokemonMVVM.Core.ViewModels
 
         private async Task PokemonSelected(PokemonGeneration selectedPokemon)
         {
-
-            var result = await _pokemonService.GetPokemonDetailAsync(_restClient, selectedPokemon.Url.ToString());
-
+            await _navigationService.Navigate<VMDetailPokemon, PokemonGeneration, EntityVMResult<PokemonGeneration>>(selectedPokemon);
         }
 
         public MvxNotifyTask LoadPokemonTask { get; private set; }
@@ -137,7 +135,7 @@ namespace PokemonMVVM.Core.ViewModels
 
         public override Task Initialize()
         {
-                       LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
+            LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
             return Task.FromResult(0);
         }
 

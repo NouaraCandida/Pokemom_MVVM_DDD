@@ -8,17 +8,19 @@ namespace PokemonDomain.Model.Detail
 {
     public partial class PokemonDetail
     {
-        
-        [JsonProperty("height")]
-        public long Height { get; set; }
-
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public int Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("height")]
+        public int Height { get; set; }
 
         [JsonProperty("types")]
         public PokemonType[] Types { get; set; }
 
         [JsonProperty("weight")]
-        public long Weight { get; set; }
+        public int Weight { get; set; }
     }
 }

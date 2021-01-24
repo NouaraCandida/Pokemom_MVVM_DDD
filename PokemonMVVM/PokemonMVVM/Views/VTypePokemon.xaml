@@ -27,8 +27,6 @@
                        Aspect="AspectFit"
                        HeightRequest="50"
                        Margin="5" />
-               
-
             </StackLayout>
             <StackLayout BackgroundColor="DarkRed"
                              Grid.Row="1"
