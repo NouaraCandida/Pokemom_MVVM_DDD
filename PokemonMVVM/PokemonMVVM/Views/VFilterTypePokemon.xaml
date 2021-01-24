@@ -8,13 +8,11 @@
              x:TypeArguments="viewModels:VMFilterTypePokemon"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout>
-            <Grid>
                 <Frame  BackgroundColor="#FCF0F5" >
                     <StackLayout>
                         <Grid >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="60"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40"/>
@@ -55,14 +53,14 @@
                       
 
                         <StackLayout
-                                    BackgroundColor="#754DB1" 
+                                    BackgroundColor="DarkRed" 
                                     Margin="15,0,15,0"  
                                     HeightRequest="0.5"/>
                         <Frame  BackgroundColor="White"
                                 CornerRadius="10"
                                 HorizontalOptions="FillAndExpand" 
                                     VerticalOptions="FillAndExpand">
-                            <StackLayout>
+                            <Grid>
 
                                 <views:MvxListView 
                                     HorizontalOptions="FillAndExpand" 
@@ -98,11 +96,9 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </views:MvxListView>
-                            </StackLayout>
+                            </Grid>
                         </Frame>
                     </StackLayout>
                 </Frame>
-            </Grid>
-        </StackLayout>
     </ContentPage.Content>
 </views:MvxContentPage>
