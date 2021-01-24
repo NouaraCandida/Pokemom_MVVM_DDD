@@ -27,6 +27,9 @@
                        Aspect="AspectFit"
                        HeightRequest="100"
                        Margin="5" />
+                <Button Text="Filter"         
+                        Command="{mvx:MvxBind FilterTypeCommand}"/>
+
             </StackLayout>
             <StackLayout BackgroundColor="DarkRed"
                              Grid.Row="1"

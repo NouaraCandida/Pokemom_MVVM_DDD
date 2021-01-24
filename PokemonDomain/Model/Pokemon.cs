@@ -14,7 +14,8 @@ namespace PokemonDomain
         {
             Name = name;
             Url = url;
-            UrlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + Url?.Replace(Constants.BaseUrl, "").Replace("/","") + ".png";
+            var old = url?.Split('/');
+            UrlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + old[6] + ".png";
         }
     }
 }

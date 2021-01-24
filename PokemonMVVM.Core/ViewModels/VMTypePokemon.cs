@@ -4,6 +4,7 @@ using MvvmCross.ViewModels;
 using PokemonDomain;
 using PokemonServiceContext.Rest;
 using PokemonServiceContext.Services;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace PokemonMVVM.Core.ViewModels
             _navigationService = navigationService;
             _pokemonService = pokemonService;
             _restClient = restClient;
+            FilterTypeCommand = new MvxCommand(FilterPokemon);
             Pokemons =  new MvxObservableCollection<Pokemon>();
             PokemonSelectedCommand = new MvxAsyncCommand<Pokemon>(PokemonSelected);
             FetchPokemonCommand = new MvxCommand(
@@ -33,6 +35,12 @@ namespace PokemonMVVM.Core.ViewModels
                    }
                });
             RefreshPokemonCommand = new MvxCommand(RefreshPokemon);
+        }
+
+        private void FilterPokemon()
+        {
+             _navigationService.Navigate<VMFilterTypePokemon>();
+            var result =  _pokemonService.GetPokemonTypeAsync(_restClient, "");
         }
 
         private async Task LoadPokemon()
@@ -82,6 +90,7 @@ namespace PokemonMVVM.Core.ViewModels
             }
         }
 
+        public IMvxCommand FilterTypeCommand { get; private set; }
         public IMvxCommand<Pokemon> PokemonSelectedCommand { get; private set; }
 
         public IMvxCommand FetchPokemonCommand { get; private set; }
