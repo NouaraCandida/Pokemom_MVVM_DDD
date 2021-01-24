@@ -83,15 +83,9 @@ namespace PokemonMVVM.Core.ViewModels
 
         private async Task PokemonSelected(PokemonGeneration selectedPokemon)
         {
-            /* var result = await _navigationService.Navigate<PersonViewModel, Person, DestructionResult<Person>>(selectedPerson);
 
-             if (result != null && result.Destroyed)
-             {
-                 var person = People.FirstOrDefault(p => p.Name == result.Entity.Name);
-                 if (person != null)
-                     People.Remove(person);
-             }*/
-            
+            var result = await _pokemonService.GetPokemonDetailAsync(_restClient, selectedPokemon.Url.ToString());
+
         }
 
         public MvxNotifyTask LoadPokemonTask { get; private set; }

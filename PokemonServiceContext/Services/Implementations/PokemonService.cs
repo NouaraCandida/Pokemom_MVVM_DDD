@@ -1,5 +1,6 @@
 ﻿using PokemonDomain;
 using PokemonDomain.Model;
+using PokemonDomain.Model.Detail;
 using PokemonMVVM.Core.Model;
 using PokemonServiceContext.Rest;
 using System.Collections.Generic;
@@ -36,6 +37,13 @@ namespace PokemonServiceContext.Services
             return string.IsNullOrEmpty(url)
                        ? restClient.MakeApiCall<PokemonTypeRoot>($"{Constants.BaseUrl}/type/", HttpMethod.Get)
                        : restClient.MakeApiCall<PokemonTypeRoot>(url, HttpMethod.Get);
+        }
+
+        public Task<PokemonDetail> GetPokemonDetailAsync(IRestClient restClient, string url)
+        {
+            return string.IsNullOrEmpty(url)
+                         ? restClient.MakeApiCall<PokemonDetail>($"{Constants.BaseUrl}/pokemon/", HttpMethod.Get)
+                         : restClient.MakeApiCall<PokemonDetail>(url, HttpMethod.Get);
         }
     }
 }

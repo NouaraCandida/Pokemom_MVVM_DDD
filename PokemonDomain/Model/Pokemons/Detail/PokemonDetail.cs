@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using PokemonDomain.Model.Pokemons.Type;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PokemonDomain.Model
+namespace PokemonDomain.Model.Detail
 {
     public partial class PokemonDetail
     {
@@ -14,10 +15,8 @@ namespace PokemonDomain.Model
         [JsonProperty("id")]
         public long Id { get; set; }
 
-
-        [JsonProperty("species")]
-        public PokemonSpecies Species { get; set; }
-
+        [JsonProperty("types")]
+        public PokemonType[] Types { get; set; }
 
         [JsonProperty("weight")]
         public long Weight { get; set; }
