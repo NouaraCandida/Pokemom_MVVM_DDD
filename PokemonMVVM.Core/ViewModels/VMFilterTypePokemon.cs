@@ -1,7 +1,10 @@
 ﻿using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using PokemonDomain;
 using PokemonDomain.Model;
+using PokemonMVVM.Core.Model;
+using PokemonMVVM.Core.ViewModelResult;
 using PokemonServiceContext.Rest;
 using PokemonServiceContext.Services;
 using System;
@@ -23,21 +26,35 @@ namespace PokemonMVVM.Core.ViewModels
             _pokemonService = pokemonService;
             _restClient = restClient;
             ClosePageCommand = new MvxAsyncCommand(ClosePage);
-            PokemonsTypes = new MvxObservableCollection<PokemonType>();
-            PokemonTypeSelectedCommand = new MvxAsyncCommand<PokemonType>(PokemonTypeSelected);
+            PokemonsTypes = new MvxObservableCollection<PokemonGeneration>();
+            PokemonTypeSelectedCommand = new MvxAsyncCommand<PokemonGeneration>(PokemonTypeSelected);
 
         }
 
-        private Task PokemonTypeSelected(PokemonType arg)
+        private async Task PokemonTypeSelected(PokemonGeneration arg)
         {
-            throw new NotImplementedException();
+            var result = await _pokemonService.GetPokemonTypeIdAsync(_restClient, arg.Url.ToString());
+            
+            List<PokemonGeneration> listPokemon = new List<PokemonGeneration>();
+            foreach(var pokemonGeneration in result.Pokemon)
+            {
+                
+                listPokemon.Add(pokemonGeneration.PokemonGeneration);
+            }
+            PagedResult<PokemonGeneration> resultPage = new PagedResult<PokemonGeneration>();
+            resultPage.Next = null;
+            resultPage.Results = listPokemon;
+            resultPage.IsFilterType = true;
+            resultPage.TypeFilter = arg.Name;
+            await _navigationService.Navigate<VMTypePokemon, PagedResult<PokemonGeneration>, EntityVMResult<PagedResult<PokemonGeneration>>>(resultPage);
+            await _navigationService.Close(this);
         }
-
+     
         private async Task ClosePage()
         {
             await _navigationService.Close(this);
         }
-        private async Task LoadPokemon()
+        private async Task LoadTypePokemon()
         {
             var result = await _pokemonService.GetPokemonTypeAsync(_restClient, _nextPage);
 
@@ -55,8 +72,8 @@ namespace PokemonMVVM.Core.ViewModels
         }
 
         public MvxNotifyTask LoadPokemonTypeTask { get; private set; }
-        private MvxObservableCollection<PokemonType> _pokemonsTypes;
-        public MvxObservableCollection<PokemonType> PokemonsTypes
+        private MvxObservableCollection<PokemonGeneration> _pokemonsTypes;
+        public MvxObservableCollection<PokemonGeneration> PokemonsTypes
         {
             get
             {
@@ -70,11 +87,11 @@ namespace PokemonMVVM.Core.ViewModels
         }
 
         public IMvxCommand ClosePageCommand { get; private set; }
-        public IMvxCommand<PokemonType> PokemonTypeSelectedCommand { get; private set; }
+        public IMvxCommand<PokemonGeneration> PokemonTypeSelectedCommand { get; private set; }
 
         public override Task Initialize()
         {
-            LoadPokemonTypeTask = MvxNotifyTask.Create(LoadPokemon);
+            LoadPokemonTypeTask = MvxNotifyTask.Create(LoadTypePokemon);
 
             return Task.FromResult(0);
         }

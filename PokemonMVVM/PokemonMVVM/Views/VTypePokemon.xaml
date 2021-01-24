@@ -13,7 +13,7 @@
     <ContentPage.Content>
         <Grid BackgroundColor="DarkRed">
             <Grid.RowDefinitions>
-                <RowDefinition Height="150" />
+                <RowDefinition Height="100" />
                 <RowDefinition Height="20" />
                 <RowDefinition Height="22" />
                 <RowDefinition Height="22" />
@@ -25,10 +25,9 @@
                 <Image Source="logo"
                        HorizontalOptions="Center"
                        Aspect="AspectFit"
-                       HeightRequest="100"
+                       HeightRequest="70"
                        Margin="5" />
-                <Button Text="Filter"         
-                        Command="{mvx:MvxBind FilterTypeCommand}"/>
+               
 
             </StackLayout>
             <StackLayout BackgroundColor="DarkRed"
@@ -46,18 +45,47 @@
                              Padding="8,0,8,3"
                              Grid.Row="2"
                              Grid.RowSpan="3">
-                    <views:MvxListView 
-                HorizontalOptions="FillAndExpand" 
-                VerticalOptions="FillAndExpand"
-                SelectionMode="None"
-                ItemsSource="{mvx:MvxBind Pokemons}" 
-                ItemClick="{mvx:MvxBind PokemonSelectedCommand}"
-                IsPullToRefreshEnabled="True"
-                RefreshCommand="{mvx:MvxBind RefreshPokemonCommand}"
-                BackgroundColor="Transparent"
-                RowHeight="100"
-                SeparatorVisibility="None">
-                <ListView.Behaviors>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="EndAndExpand">
+                    <Label
+                        Padding="14,0,0,0"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        FontSize="14"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center" 
+                        VerticalTextAlignment="Center"
+                        TextColor="#7D7D7D"                        
+                        FontAttributes="Bold"
+                         mvx:Bi.nd="Text NameFilter" />
+                    <Button 
+                        Text="Filter" 
+                        TextColor="#7D7D7D"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="End"
+                        Command="{mvx:MvxBind FilterTypeCommand}"/>
+                    <Button 
+                        Text="All"
+                        TextColor="#7D7D7D"
+                        HorizontalOptions="End"
+                        BackgroundColor ="Transparent"
+                        Command="{mvx:MvxBind AllFilterTypeCommand}"/>
+                </StackLayout>
+
+
+                <views:MvxListView 
+                        HorizontalOptions="FillAndExpand" 
+                        VerticalOptions="FillAndExpand"
+                        SelectionMode="None"
+                        ItemsSource="{mvx:MvxBind Pokemons}" 
+                        ItemClick="{mvx:MvxBind PokemonSelectedCommand}"
+                        IsPullToRefreshEnabled="True"
+                        RefreshCommand="{mvx:MvxBind RefreshPokemonCommand}"
+                        BackgroundColor="Transparent"
+                        RowHeight="100"
+                        SeparatorVisibility="None">
+                    <ListView.Behaviors>
                     <behavior:InfiniteScroll LoadMoreCommand="{Binding FetchPokemonCommand}" />
                 </ListView.Behaviors>
                 <ListView.ItemTemplate>
@@ -65,7 +93,7 @@
                         <views:MvxViewCell>
                             <StackLayout
                                 Orientation="Vertical">
-                                <Grid >
+                                    <Grid >
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>

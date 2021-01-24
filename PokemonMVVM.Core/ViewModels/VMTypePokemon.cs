@@ -2,6 +2,9 @@
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using PokemonDomain;
+using PokemonDomain.Model;
+using PokemonMVVM.Core.Model;
+using PokemonMVVM.Core.ViewModelResult;
 using PokemonServiceContext.Rest;
 using PokemonServiceContext.Services;
 using System;
@@ -11,20 +14,22 @@ using System.Threading.Tasks;
 namespace PokemonMVVM.Core.ViewModels
 {
 
-    public class VMTypePokemon : BaseViewModel
+    public class VMTypePokemon : BaseViewModel<PagedResult<PokemonGeneration>, EntityVMResult<PagedResult<PokemonGeneration>>>
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IPokemonService _pokemonService;
         private readonly IRestClient _restClient;
         private string _nextPage;
+        private bool _IsVisibleAllPokemon;
         public VMTypePokemon(IMvxNavigationService navigationService, IPokemonService pokemonService, IRestClient restClient)
         {
             _navigationService = navigationService;
             _pokemonService = pokemonService;
             _restClient = restClient;
             FilterTypeCommand = new MvxCommand(FilterPokemon);
-            Pokemons =  new MvxObservableCollection<Pokemon>();
-            PokemonSelectedCommand = new MvxAsyncCommand<Pokemon>(PokemonSelected);
+            AllFilterTypeCommand = new MvxCommand(AllPokemmon);
+            Pokemons =  new MvxObservableCollection<PokemonGeneration>();
+            PokemonSelectedCommand = new MvxAsyncCommand<PokemonGeneration>(PokemonSelected);
             FetchPokemonCommand = new MvxCommand(
                () =>
                {
@@ -35,32 +40,48 @@ namespace PokemonMVVM.Core.ViewModels
                    }
                });
             RefreshPokemonCommand = new MvxCommand(RefreshPokemon);
+            _IsVisibleAllPokemon = true;
+        }
+
+        private void AllPokemmon()
+        {
+            _IsVisibleAllPokemon = true;
+            SetTitleAll();
+            LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
+            RaisePropertyChanged(() => LoadPokemonTask);
         }
 
         private void FilterPokemon()
         {
              _navigationService.Navigate<VMFilterTypePokemon>();
-            var result =  _pokemonService.GetPokemonTypeAsync(_restClient, "");
         }
-
+        private void SetTitleAll()
+        {
+            NameFilter ="NAME OF ALL POKÉMON";
+        }
         private async Task LoadPokemon()
         {
-            var result = await _pokemonService.GetPokemonAsync(_restClient, _nextPage);
-
-            if (string.IsNullOrEmpty(_nextPage))
+            if(_IsVisibleAllPokemon)
             {
-                Pokemons.Clear();
-                Pokemons.AddRange(result.Results);
-            }
-            else
-            {
-                Pokemons.AddRange(result.Results);
-            }
+                var result = await _pokemonService.GetPokemonAsync(_restClient, _nextPage);
 
-            _nextPage = result.Next;
+                if (string.IsNullOrEmpty(_nextPage))
+                {
+                    Pokemons.Clear();
+                    Pokemons.AddRange(result.Results);
+                }
+                else
+                {
+                    Pokemons.AddRange(result.Results);
+                }
+
+                _nextPage = result.Next;
+                SetTitleAll();
+            }
+            
         }
 
-        private async Task PokemonSelected(Pokemon selectedPokemon)
+        private async Task PokemonSelected(PokemonGeneration selectedPokemon)
         {
             /* var result = await _navigationService.Navigate<PersonViewModel, Person, DestructionResult<Person>>(selectedPerson);
 
@@ -76,8 +97,8 @@ namespace PokemonMVVM.Core.ViewModels
         public MvxNotifyTask LoadPokemonTask { get; private set; }
         public MvxNotifyTask FetchPokemonTask { get; private set; }
 
-        private MvxObservableCollection<Pokemon> _pokemons;
-        public MvxObservableCollection<Pokemon> Pokemons
+        private MvxObservableCollection<PokemonGeneration> _pokemons;
+        public MvxObservableCollection<PokemonGeneration> Pokemons
         {
             get
             {
@@ -89,9 +110,20 @@ namespace PokemonMVVM.Core.ViewModels
                 RaisePropertyChanged(() => Pokemons);
             }
         }
-
+        private string _nameFilter;
+        public string NameFilter
+        {
+            get => _nameFilter;
+            set
+            {
+                _nameFilter = value;
+                RaisePropertyChanged(() => NameFilter);
+            }
+        }
         public IMvxCommand FilterTypeCommand { get; private set; }
-        public IMvxCommand<Pokemon> PokemonSelectedCommand { get; private set; }
+        public IMvxCommand AllFilterTypeCommand { get; private set; }
+        
+        public IMvxCommand<PokemonGeneration> PokemonSelectedCommand { get; private set; }
 
         public IMvxCommand FetchPokemonCommand { get; private set; }
 
@@ -99,17 +131,40 @@ namespace PokemonMVVM.Core.ViewModels
 
         private void RefreshPokemon()
         {
-            _nextPage = null;
+            if(_IsVisibleAllPokemon)
+            {
+                _nextPage = null;
 
-            LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
-            RaisePropertyChanged(() => LoadPokemonTask);
+                LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
+                RaisePropertyChanged(() => LoadPokemonTask);
+            }
+           
         }
 
         public override Task Initialize()
         {
-            LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
-
+                       LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
             return Task.FromResult(0);
+        }
+
+
+
+        public override void Prepare(PagedResult<PokemonGeneration> parameter)
+        {
+            if (string.IsNullOrEmpty(_nextPage))
+            {
+                Pokemons.Clear();
+                Pokemons.AddRange(parameter.Results);
+            }
+            else
+            {
+                Pokemons.AddRange(parameter.Results);
+            }
+
+            _nextPage = parameter.Next;
+            _IsVisibleAllPokemon = !parameter.IsFilterType;
+            NameFilter ="NAME OF ALL " + parameter.TypeFilter.ToUpper() + " TYPE POKÉMON";
+
         }
     }
 

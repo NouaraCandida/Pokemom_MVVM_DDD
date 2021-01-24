@@ -4,9 +4,10 @@ using System.Text;
 
 namespace PokemonDomain.Model
 {
-    public class PokemonType
+    public abstract class ResultPokemon
     {
-        public string Name { get; set; }
-        public string Url { get; set; }
+        public string UrlImage { get; set; }
+       
+
     }
 }
