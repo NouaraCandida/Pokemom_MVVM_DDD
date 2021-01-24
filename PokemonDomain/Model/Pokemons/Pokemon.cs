@@ -5,14 +5,12 @@ using System.Text;
 
 namespace PokemonDomain.Model
 {
-    public partial class Pokemon
+    public class Pokemon
     {
         [JsonProperty("pokemon")]
         public PokemonGeneration PokemonGeneration { get; set; }
 
         [JsonProperty("slot")]
         public long Slot { get; set; }
-
-        
     }
 }

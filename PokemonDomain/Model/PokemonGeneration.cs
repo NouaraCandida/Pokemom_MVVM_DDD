@@ -4,7 +4,7 @@ using System;
 
 namespace PokemonDomain.Model
 {
-    public partial class PokemonGeneration: ResultPokemon
+    public class PokemonGeneration: ResultPokemon
     {
        
         [JsonProperty("name")]
