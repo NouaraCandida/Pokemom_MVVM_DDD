@@ -95,7 +95,13 @@ namespace PokemonMVVM.Core.ViewModels
             LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
             RaisePropertyChanged(() => LoadPokemonTask);
         }
-      
+
+        public override Task Initialize()
+        {
+            LoadPokemonTask = MvxNotifyTask.Create(LoadPokemon);
+
+            return Task.FromResult(0);
+        }
     }
 
 }
