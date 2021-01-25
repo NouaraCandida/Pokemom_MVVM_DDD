@@ -1,4 +1,4 @@
-# Pokemom_MVVM_DDD
+# Pokemom MVVM DDD
 Repository directed to the study of MVVM and DDD
 
 ## 🚀 Starting
