@@ -1,9 +1,6 @@
-﻿using MvvmCross.Base;
-using MvvmCross.Binding.BindingContext;
+﻿using MvvmCross.Binding.BindingContext;
 using MvvmCross.Forms.Views;
-using MvvmCross.ViewModels;
 using PokemonMVVM.Core.ViewModels;
-using Xamarin.Forms;
 
 namespace PokemonMVVM.Views
 {

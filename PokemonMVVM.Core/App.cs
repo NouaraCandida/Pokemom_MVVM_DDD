@@ -11,7 +11,7 @@ namespace PokemonMVVM.Core
             InjectionMobile.Start();
 
 
-            CreatableTypes().EndingWith("Service").AsInterfaces().RegisterAsLazySingleton();
+            CreatableTypes().EndingWith("Services").AsInterfaces().RegisterAsLazySingleton();
             RegisterCustomAppStart<AppStart>();
             base.Initialize();
         }
